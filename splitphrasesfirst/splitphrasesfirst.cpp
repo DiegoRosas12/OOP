@@ -6,19 +6,20 @@
 
 using namespace std;
 
-void split(string s){
+void split(string s, vector v){
     size_t inicio = s.find_first_of(' ');
     while (inicio!=string::npos) {
     while(s[inicio+1] == ' '){
         inicio++;
     }
     s[inicio]='\n';
-    inicio=s.find_first_of(' ',inicio+1);
+    inicio = s.find_first_of(' ',inicio+1);
   }
+  cout << s << '\n';
 }
 
-int main ()
-{
+int main () {
+  vector<string> v;
   string s;
   cout << "Introduce la cadena: ";
   getline(cin,s);
@@ -33,7 +34,7 @@ int main ()
   }
 */
   split(s);
-  cout << s << '\n';
+  //cout << s << '\n';
 
   return 0;
 }
