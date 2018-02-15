@@ -1,30 +1,8 @@
+// Universidad de Guanajuato
+// Diego Eduardo Rosas Gonzalez
 #include <iostream>
 using namespace std;
-/*
-// dice cuantos tokens hay en una cadena
-int ntokens(char* str) {
-    int i = 0;     // indice para str
-    int count = 0; // contador de palabras
 
-    while ( 1 ) {
-        // consume todos los espacios
-        while ( str[i] == ' ' ) i ++;
-
-        // si halla el fin de linea, finaliza el conteo
-        if ( str[i] == '\n' || str[i] == 0 ) break;
-
-        // si no es espacio ni fin de línea, encontró un token, contarlo
-        count ++;
-
-        // consume el token (hasta hallar un espacio o fin de línea)
-        while ( str[i] != ' ' && str[i] != '\n' && \
-                str[i] != 0 ) i ++;
-    }
-
-    // regresa el número de tokens en la cadena
-    return count;
-}
-*/
 // regresa el token n en out
 // out = cadena donde se guardará el token
 // in  = cadena donde se buscará el token
@@ -32,21 +10,17 @@ int ntokens(char* str) {
 bool token(char* out, const char* in, const int n, char* separador = (char*)" ") {
     int i = 0;     // indice para str
     int j = 0;     // indice para out
-    int k = 0;     // contador de espacios al final de la cadena
-    int l = 0;     // contador independiente para el for final
+    int l = 0;     // contador independiente para el numero de letras de la palabra
     int count = 0; // contador de palabras
-
+    
     while ( 1 ) {
         // consume todos los espacios
         while ( (in[i] == ' ')||in[i]==*separador) i ++;
-
         // verifica si se ha encontrado el fin de línea, en cuyo caso la función
         // falla, porque no ha encontrado el token
         if ( in[i] == '\n' || in[i] == 0 ) return false;
-
         // si no es fin de línea ni es espacio, se halló un token, contarlo
         count ++;
-
         // consumir los caracteres del token hasta encontrar un espacio o el
         // fin de linea
         while ( (in[i] != *separador) && in[i] != '\n' && in[i] != 0 )
@@ -57,20 +31,25 @@ bool token(char* out, const char* in, const int n, char* separador = (char*)" ")
                 j ++;
             }
             // siguiente caracter
-            i ++;
+            i ++; 
         }
-        cout << "l:"<< l << endl;
+        l = 0;
+        while(out[l] != 0 && out[l] != '\n'){
+            l++; // total de letras en la cadena
+        }
+        while(out[l] == ' '|| out[l] == 0){
+            l--; // resta si hay espacio o es el final de línea
+        }
+       // inserta el caracter nulo al final de la palabra
+       // tambien inserta el caracter nulo en l+2 porque en la ultima palabra no hacia el recorte
+        out[l+1] = 0;
+        out[l+2] = 0;
         // si el token recién consumido era el token deseado
         if ( count == n ) {
             out[j] = 0; // agrega el caracter nulo para finalizar la cadena
             break;      // rompe el while infinito
         }
-        while(out[l] == ' '){
-            out[l] = 'a';
-            l--;
-        }
     }
-
     // si todo sale bien, la función regresa true
     return true;
 }
