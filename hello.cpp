@@ -9,8 +9,8 @@ int main() {
 }
 
 //char cadena[] = "Esta es una cadena de caracteres."
-char cadena[250]
-std::cin >> cadena;
+//char cadena[250]
+//std::cin >> cadena;
 /*
 Tarea: jueves 8 Febrero
 separar una cadena por palabras
