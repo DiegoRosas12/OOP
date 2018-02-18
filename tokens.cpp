@@ -1,71 +1,83 @@
+// Universidad de Guanajuato
+// Diego Eduardo Rosas Gonzalez
 #include <iostream>
 using namespace std;
-// dice cuantos tokens hay en una cadena
-int ntokens(char* str){
-    int i=0; // Índice para str
-    int count = 0; // Contador de palabras
-    //consume todos los espacios
-    while(1) {
-        while(str[i] == ' ') i++;
-        if(str[i] == '\n' || str[i] == 0) break;
-        count++;
-        //El backslash indica que la condición continua abajo 
-        while(str[i] != ' ' && str[i] != '\n' &&  \
-        str[i] != 0) i++;
-        i++;
-    }
-    return count;
-}
+
 // regresa el token n en out
-bool token(char* out, char* in, int n){ //char* out = char out[]
-    int i=0; // Indice para str
-    int j=0; // Indice para out
-    int count = 0; // Contador de palabras
-    //consume todos los espacios
-    while(1) {
-        while(in[i] == ' ') i++;
-        if(in[i] == '\n' || in[i] == 0) false;
-        count++;
-        //El backslash indica que la condición continua abajo 
-        while(in[i] != ' ' && in[i] != '\n' &&  \
-        in[i] != 0) {
-            if (count==n){
-            out[j] = in[i];
-            j++;
+// out = cadena donde se guardará el token
+// in  = cadena donde se buscará el token
+// n   = número de token deseado [1,n]
+bool token(char* out, const char* in, const int n, char* separador = (char*)" ") {
+    int i = 0;     // indice para str
+    int j = 0;     // indice para out
+    int l = 0;     // contador independiente para el numero de letras de la palabra
+    int count = 0; // contador de palabras
+    
+    while ( 1 ) {
+        // consume todos los espacios
+        while ( (in[i] == ' ')||in[i]==*separador) i ++;
+        // verifica si se ha encontrado el fin de línea, en cuyo caso la función
+        // falla, porque no ha encontrado el token
+        if ( in[i] == '\n' || in[i] == 0 ) return false;
+        // si no es fin de línea ni es espacio, se halló un token, contarlo
+        count ++;
+        // consumir los caracteres del token hasta encontrar un espacio o el
+        // fin de linea
+        while ( (in[i] != *separador) && in[i] != '\n' && in[i] != 0 )
+        {
+            // si el token actual es el deseado, guardarlo en cout
+            if ( count == n ) {
+                out[j] = in[i];
+                j ++;
+            }
+            // siguiente caracter
+            i ++; 
         }
-        i++;
+        l = 0;
+        while(out[l] != 0 && out[l] != '\n'){
+            l++; // total de letras en la cadena
+        }
+        while(out[l] == ' '|| out[l] == 0){
+            l--; // resta si hay espacio o es el final de línea
+        }
+       // inserta el caracter nulo al final de la palabra
+       // tambien inserta el caracter nulo en l+2 porque en la ultima palabra no hacia el recorte
+        out[l+1] = 0;
+        out[l+2] = 0;
+        // si el token recién consumido era el token deseado
+        if ( count == n ) {
+            out[j] = 0; // agrega el caracter nulo para finalizar la cadena
+            break;      // rompe el while infinito
+        }
     }
-    if(count == n){
-        out[j] = 0; // agrega el caracter nulo
-        break;
-    }
+    // si todo sale bien, la función regresa true
     return true;
 }
-}
 
-int main() {
-    //char cadena[] = "Cadena de texto puro\n";
-    char buffer[200];
-    cout << "Ingrese la cadena de caracteres" << endl;
-    cin.getline(buffer,200);
+int main( int argc, char** argv ) {
 
-    int n = ntokens(buffer);
-    cout << n <<endl;
-    int k;
-    cout << "que token quiere?: ";
-    cin >> k;
-    cout << "eligio" << k << endl;
-
-    char out[200];
-    /*if(!token(out, buffer, k)) {
-        cout << "El token" << k << " no existe" << endl;
+    // verifica el número de argumentos
+    if (argc !=2 && argc != 3) {
+        cout << "usage: ./tokens <string> <separador>" << endl;
         return 1;
     }
-    */
-    //cout << "token: \"" << out << "\"" << endl;
-    for(int i=0; i<n; i++){
-        token(out, buffer, i+1);
-        cout << i+1 << ": " << out << endl;
+
+    // alias
+    char* sep;
+    char* input = argv[1];
+    char out[200];
+    int i = 1;
+
+    if (argc == 2){
+        sep = (char*)" ";
+    }else{
+        sep = argv[2];
     }
+    while ( token(out, input, i, sep) ) {
+        cout << i << ": \"" << out << "\"" << endl;
+        i ++;
+    }
+
     return 0;
 }
+
