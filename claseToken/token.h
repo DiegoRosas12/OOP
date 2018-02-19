@@ -12,7 +12,7 @@ class Token {
     void setStr(char* str);
     void setSep(char* str);
     int ntokens(char* str, char sep);    
-    bool token(char* out, const char* in, const int n, char separador);
+    bool token(char* out, const int n, char sep);
 };
 
 #endif

@@ -21,7 +21,7 @@ int main(int argc, char** argv) {
     int i = 1;
     
     cout << "Numero de tokens: " << tok.ntokens(input,sep) << endl;
-    while ( tok.token(out, input, i, sep) ) {
+    while ( tok.token(out, i, sep) ) {
         cout << i << ": \"" << out << "\"" << endl;
         i ++;
     }
