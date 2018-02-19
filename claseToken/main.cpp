@@ -1,3 +1,6 @@
+// Universidad de Guanajuato
+// Diego Eduardo Rosas Gonzalez
+
 #include <iostream>
 #include "token.h"
 using namespace std;
@@ -9,19 +12,14 @@ int main(int argc, char** argv) {
         return 1;
     }
     Token tok;
-    tok.setStr(argv[2]);
+    tok.setCadena(argv[2]);
     tok.setSep(argv[1]);
-
-    char* input = argv[2];
-    
-    char* sepstr = argv[1];    
-    char sep = sepstr[0];
 
     char out[200];
     int i = 1;
     
-    cout << "Numero de tokens: " << tok.ntokens(input,sep) << endl;
-    while ( tok.token(out, i, sep) ) {
+    cout << "Numero de tokens: " << tok.ntokens() << endl;
+    while ( tok.token(out, i) ) {
         cout << i << ": \"" << out << "\"" << endl;
         i ++;
     }

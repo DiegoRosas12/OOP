@@ -4,15 +4,14 @@
 class Token {
     private:
     char *cadena;
-    char *separador;
+    char *separador=(char*)' ';
     int n=0;
 
     public:
-    char seeStr();
-    void setStr(char* str);
+    void setCadena(char* str);
     void setSep(char* str);
-    int ntokens(char* str, char sep);    
-    bool token(char* out, const int n, char sep);
+    int ntokens();    
+    bool token(char* out, const int n);
 };
 
 #endif
