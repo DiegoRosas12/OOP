@@ -8,6 +8,10 @@ class Token {
     int n=0;
 
     public:
+    Token(); // constructor por defecto
+    Token(char* string, char* sep=(char*)' ');
+    int getN();
+    char getSep();
     void setCadena(char* str);
     void setSep(char* str);
     int ntokens();    

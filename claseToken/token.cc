@@ -1,10 +1,27 @@
 #include "token.h"
+Token::Token() {
+    *separador = 0;
+    n = 0;
+    cadena = (char*)" ";
+}
+Token::Token(char* string, char* sep){
+    setCadena(string);
+    setSep(sep);
+}
 
 void Token::setCadena(char* str){
     cadena = str;
 }
 void Token::setSep(char* str){
     separador = str;
+}
+
+int Token::getN(){
+    return n;
+}
+
+char Token::getSep(){
+    return separador[0];
 }
 
 int Token::ntokens() {
@@ -32,11 +49,9 @@ int Token::ntokens() {
     }
 
     // regresa el número de tokens en la cadena
-    n = count;
+    n = count; // Guarda el resultado en n de la clase token
     return n;
 }
-
-
 
 // volver a poner el default char* separador = (char*)= " "
 bool Token::token(char* out, const int n) {
@@ -66,6 +81,5 @@ bool Token::token(char* out, const int n) {
             break;
         }
     }
-
     return true;
 }
