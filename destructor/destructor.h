@@ -2,26 +2,20 @@
 #define _DESTRUCTOR_H
 
 class Token {
-    public:
-
-        Token(); // constructor por defecto
-
-        Token(char* string, char sep=' ');
-
-        // Mutación (mutators)
-        void set(char* string, char sep=' ');
-
-        // Acceso (accessors)
-        int ntokens();
-        char sep();
-        bool token(char* out, int n);
-
     private:
-        char m_sep;
-        int  m_ntokens;
-        char m_buffer[256];
+    char *cadena;
+    char *separador=(char*)' ';
+    int n=0;
 
-        int token_count();
+    public:
+    Token(); // constructor por defecto
+    Token(char* string, char* sep=(char*)' ');
+    int getN();
+    char getSep();
+    void setCadena(char* str);
+    void setSep(char* str);
+    int ntokens();    
+    bool token(char* out, const int n);
 };
 
 #endif

@@ -1,30 +1,31 @@
+// Universidad de Guanajuato
+// Diego Eduardo Rosas Gonzalez
+
 #include <iostream>
 #include "destructor.h"
-
 using namespace std;
 
-int main( int argc, char** argv ) {
-    char out[256];
-
+int main(int argc, char** argv) {
+    // verifica el número de argumentos
     if ( argc != 3 ) {
-        cout << "usage: tokens <sep> <string>" << endl;
+        cout << "usage: ./tokens <sep> <string>" << endl;
         return 1;
     }
-
-    // alias
     char* string = argv[2];
     char* sep = argv[1];
 
-    // creamos el objeto
-    Token tk(string, sep[0]);
+    Token tok(string, sep);
+    cout << "ntokens = " << tok.getN() <<endl;
+    cout << "sep = " << tok.getSep() << endl;
+    
+    char out[200];
+    int i = 1;
 
-    cout << "cadena = \"" << string << "\"" << endl;
-    cout << "número de tokens = " << tk.ntokens() << endl;
-    for ( int i=1; i<=tk.ntokens(); i++ ) {
-        if ( !tk.token(out,i) ) break;
+    cout << "Numero de tokens: " << tok.ntokens() << endl;
+    while ( tok.token(out, i) ) {
         cout << i << ": \"" << out << "\"" << endl;
+        i ++;
     }
-
+    
     return 0;
 }
-

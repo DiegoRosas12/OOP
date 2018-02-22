@@ -1,68 +1,75 @@
-#include "token.h"
+#include "destructor.h"
 
 Token::Token() {
-    m_sep = 0;
-    m_ntokens = 0;
-    m_buffer[0] = 0;
+    *separador = 0;
+    n = 0;
+    cadena = (char*)" ";
+}
+Token::Token(char* string, char* sep){
+    setCadena(string);
+    setSep(sep);
 }
 
-Token::Token(char* string, char sep) {
-    set(string, sep);
+void Token::setCadena(char* str){
+    cadena = str;
+}
+void Token::setSep(char* str){
+    separador = str;
 }
 
-void Token::set(char* string, char sep) {
-    int i = 0;
+int Token::getN(){
+    return n;
+}
 
-    while ( string[i] != 0 ) {
-        m_buffer[i] = string[i];
-        i ++;
-    }
-
-    m_sep = sep;
-    m_ntokens = token_count();
+char Token::getSep(){
+    return separador[0];
 }
 
 int Token::ntokens() {
-    return m_ntokens;
-}
-
-char Token::sep() {
-    return m_sep;
-}
-
-int Token::token_count() {
     int i = 0;     // indice para str
     int count = 0; // contador de palabras
 
     while ( 1 ) {
-        while ( m_buffer[i] == m_sep ) i ++;
-        while ( m_buffer[i] == ' ' ) i++;
-        if ( m_buffer[i] == '\n' || m_buffer[i] == 0 ) break;
-        if ( m_buffer[i] != m_sep ) count ++;
-        while ( m_buffer[i] != m_sep && m_buffer[i] != '\n' && \
-                m_buffer[i] != 0 ) i ++;
-        while ( m_buffer[i] == ' ' ) i++;
+        // consume todos los separadores
+        while ( cadena[i] == *separador ) i ++;
+
+        // si halla el fin de linea, finaliza el conteo
+        if ( cadena[i] == '\n' || cadena[i] == 0 ) break;
+
+        while ( cadena[i] == ' ' ) i++; // consume espacios al inicio
+
+        // si no es espacio ni fin de línea, encontró un token, contarlo
+        if ( cadena[i] != *separador && cadena[i] != '\n' && cadena[i] != 0 ) count ++;
+
+        // consume el token (hasta hallar un espacio o fin de línea)
+        while ( cadena[i] != *separador && cadena[i] != '\n' && \
+                cadena[i] != 0 ) i ++;
+
+        while ( cadena[i] == ' ' ) i++; // consume espacios al final
+
     }
 
     // regresa el número de tokens en la cadena
-    return count;
+    n = count; // Guarda el resultado en n de la clase token
+    return n;
 }
 
-bool Token::token(char* out, int n) {
+// volver a poner el default char* separador = (char*)= " "
+bool Token::token(char* out, const int n) {
     int i = 0;     // indice para str
     int j = 0;     // indice para out
     int count = 0; // contador de palabras
 
     while ( 1 ) {
-        while ( m_buffer[i] == m_sep ) i ++;
-        while ( m_buffer[i] == ' ' ) i++;
-        if ( m_buffer[i] == '\n' || m_buffer[i] == 0 ) return false;
-        if ( m_buffer[i] != m_sep ) count ++;
-        while ( m_buffer[i] != m_sep && m_buffer[i] != '\n' && \
-                m_buffer[i] != 0 )
+        while ( cadena[i] == *separador ) i ++;
+        if ( cadena[i] == '\n' || cadena[i] == 0 ) return false;
+        while ( cadena[i] == ' ' ) i++; // consume espacios al inicio
+        if ( cadena[i] != *separador && cadena[i] != '\n' && cadena[i] != 0 ) count ++;
+        while ( cadena[i] != *separador && cadena[i] != '\n' && \
+                cadena[i] != 0 )
         {
             if ( count == n ) {
-                out[j] = m_buffer[i];
+                out[j] = cadena[i];
                 j ++;
             }
 
@@ -75,8 +82,5 @@ bool Token::token(char* out, int n) {
             break;
         }
     }
-
     return true;
 }
-
-

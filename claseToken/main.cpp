@@ -16,7 +16,7 @@ int main(int argc, char** argv) {
 
     Token tok(string, sep);
     cout << "ntokens = " << tok.getN() <<endl;
-    cout << "sep = " << tok.getSep << endl;
+    cout << "sep = " << tok.getSep() << endl;
     
     char out[200];
     int i = 1;
