@@ -3,19 +3,25 @@
 
 class Token {
     private:
-    char *cadena;
+    char cadena[256];
     char *separador=(char*)' ';
+    char **array;
     int n=0;
+    int getN();
+    void clear(char **array);
 
     public:
     Token(); // constructor por defecto
-    Token(char* string, char* sep=(char*)' ');
-    int getN();
+    ~Token();
+    Token(char* str, char* sep=(char*)' ');
+    char get(int x, int y);
+    // Mutators
+    void set(char* str, char* sep=(char*)' ');
+    bool getTok(char* out, const int n);
+    // Accessors
     char getSep();
-    void setCadena(char* str);
-    void setSep(char* str);
-    int ntokens();    
-    bool token(char* out, const int n);
+    int num();    
+    
 };
 
 #endif
