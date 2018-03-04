@@ -1,46 +1,31 @@
 #include "destructor.h"
 
-// Constructor
-Token::Token(char* str, char* sep){
-    //str = (char*)' ';
-    set(str, sep);
-    array = new char*[n];
-    for(int i=0;i<n;i++)
-        array[i] = new char[30];
-
-    
-}
-void Token::set(char* str, char* sep){
-    clear(array);
-    int i=0;
-    while(str[i] != 0){
-    cadena[i] = *str;
-    i++;
-    }
-    separador = sep;
-    n = getN();
-}
-void Token::clear(char **myarray){
-    int i=0;
-    separador = (char*)' ';
-    cadena[i] = 0;
+Token::Token() {
+    *separador = 0;
     n = 0;
+    cadena = (char*)" ";
+}
+Token::Token(char* string, char* sep){
+    setCadena(string);
+    setSep(sep);
+}
 
+void Token::setCadena(char* str){
+    cadena = str;
 }
-Token::~Token(){
-    clear(array);
-    for(int i=0;i<n;i++){
-    delete [] array[i];
-    }
-    delete array;
+void Token::setSep(char* str){
+    separador = str;
 }
+
+int Token::getN(){
+    return n;
+}
+
 char Token::getSep(){
     return separador[0];
 }
-int Token::num() {
-    return n;
-}
-int Token::getN() {
+
+int Token::ntokens() {
     int i = 0;     // indice para str
     int count = 0; // contador de palabras
 
@@ -63,17 +48,17 @@ int Token::getN() {
         while ( cadena[i] == ' ' ) i++; // consume espacios al final
 
     }
+
     // regresa el número de tokens en la cadena
     n = count; // Guarda el resultado en n de la clase token
     return n;
 }
 
 // volver a poner el default char* separador = (char*)= " "
-bool Token::getTok(char *out, const int n) {
+bool Token::token(char* out, const int n) {
     int i = 0;     // indice para str
     int j = 0;     // indice para out
     int count = 0; // contador de palabras
-    int k = 0;     // indice para arreglo dinamico
 
     while ( 1 ) {
         while ( cadena[i] == *separador ) i ++;
@@ -84,7 +69,7 @@ bool Token::getTok(char *out, const int n) {
                 cadena[i] != 0 )
         {
             if ( count == n ) {
-                array[n-1][j] = cadena[i];
+                out[j] = cadena[i];
                 j ++;
             }
 
@@ -92,19 +77,10 @@ bool Token::getTok(char *out, const int n) {
         }
         if ( count == n ) {
             j --;
-            while ( array[n-1][j] == ' ') j--; // consume espacios al final
-            array[n-1][j+1] = 0;
-            k++;
+            while ( out[j] == ' ') j--; // consume espacios al final
+            out[j+1] = 0;
             break;
         }
-        k++;
     }
     return true;
-}
-char Token::get(int x, int y){
-    int i=0;
-    //while(array[a-1][i] != 0){
-    return array[x][y];
-    //i++;
-   // }
 }
