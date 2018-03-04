@@ -26,26 +26,24 @@
         {
             "name": "Linux",
             "includePath": [
+                "/usr/include/linux",
+                "/usr/bin/g++",
+                "/usr/include",
                 "/usr/local/include",
                 "${workspaceRoot}",
                 "/usr/include/c++/7.2.1",
                 "/usr/include/c++/7.2.1/x86_64-pc-linux-gnu",
                 "/usr/include/c++/7.3.0",
-                "/usr/include/c++/7.3.0/x86_64-pc-linux-gnu",
-                "/usr/include/linux"
+                "/usr/include/c++/7.3.0/x86_64-pc-linux-gnu"
+
             ],
             "defines": [],
             "intelliSenseMode": "clang-x64",
             "browse": {
                 "path": [
-                    "${workspaceRoot}",
-                    "/usr/include",
-                    "/usr/local/include",
-                    "/usr/share/man/man1/g++.1.gz",
-                    "/usr/bin/g++",
-                    "/usr/include/c++/7.3.0",
-                    "/usr/include/c++/7.3.0/x86_64-pc-linux-gnu",
-                    "/usr/include/linux"
+                    "usr/include/linux",
+                    "usr/include",
+                    "${workspaceRoot}"
                 ],
                 "limitSymbolsToIncludedHeaders": true,
                 "databaseFilename": ""
