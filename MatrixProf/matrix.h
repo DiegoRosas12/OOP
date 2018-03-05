@@ -23,6 +23,8 @@ class Matrix {
 
         void print();
 
+        bool Matrix::add(const Matrix& B);
+
     private:
         int rows;
         int cols;

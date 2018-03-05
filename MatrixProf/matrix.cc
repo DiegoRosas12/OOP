@@ -3,6 +3,7 @@
 Matrix::Matrix() {
    rows = 0;
    cols = 0;
+   size = 0;
    data = nullptr;
 }
 
@@ -11,7 +12,8 @@ Matrix::Matrix( const Matrix& copy ) {
     rows = copy.rows;
     cols = copy.cols;
     size = copy.size;
-
+    
+    if (copi.size >)
     data = new double[size];
     for ( int i=0; i<size; i++ ) data[i] = copy.data[i];
 }
@@ -130,6 +132,13 @@ bool Matrix::save( char* filename ) {
 
     fs.close();
 
+    return true;
+}
+// se utiliza & para hacer una referencia en lugar de hacer una copia 
+// porque es costosa
+bool Matrix::add( const Matrix& B){
+    if (rows != B.rows ||  cols != B.cols) return false;
+    for (int i=0; i<size; i++) data[i] = data[i] + B.data[i];
     return true;
 }
 
