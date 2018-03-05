@@ -7,17 +7,28 @@
 class Matrix {
     public:
         Matrix();
-        Matrix(int rows, int cols, double*data);
-        Matrix(char* filename);
+        Matrix( int rows, int cols, double* data);
+        Matrix( char* filename );
+        Matrix( const Matrix& copy );
         ~Matrix();
 
         bool clear();
-        bool set(int rows, int cols, double* data);
-        bool load(char* filename);
-        bool save(cahr* filename);
+        bool set( int rows, int cols, double* data );
+        bool load( char* filename );
+        bool save( char* filename );
+
+        //void add();
+        int getrows();
+        int getcols();
+
+        void print();
+
     private:
         int rows;
         int cols;
+        int size;
         double* data;
-}
+};
+
 #endif
+
