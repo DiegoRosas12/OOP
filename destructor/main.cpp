@@ -7,25 +7,33 @@ using namespace std;
 
 int main(int argc, char** argv) {
     // verifica el número de argumentos
-    if ( argc != 3 ) {
+    char* str;
+    char* sep;
+    if ( argc == 2) {
+        str = argv[1];
+    }else if (argc == 3){
+        str = argv[2];
+        sep = argv[1];
+    }else{
         cout << "usage: ./tokens <sep> <string>" << endl;
         return 1;
     }
-    char* string = argv[2];
-    char* sep = argv[1];
-
-    Token tok(string, sep);
-    cout << "ntokens = " << tok.getN() <<endl;
-    cout << "sep = " << tok.getSep() << endl;
+    Token tok(str,sep);
+    char** p;
     
     char out[200];
-    int i = 1;
-
-    cout << "Numero de tokens: " << tok.ntokens() << endl;
-    while ( tok.token(out, i) ) {
-        cout << i << ": \"" << out << "\"" << endl;
-        i ++;
-    }
+    //int i = 1;
+    int i=1,k=0;
+    char c;
+    cout << "separador = \"" << tok.getSep() << "\"" << endl;
+    cout << "Numero de tokens: " << tok.num() << endl;
     
+    for(i=1;i<tok.num();i++) {
+    while(tok.get(i,k) != 0)
+    c = tok.get(i,k);
+    cout << c;
+    cout << endl;
+    k++;
+    }
     return 0;
 }
