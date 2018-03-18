@@ -4,7 +4,7 @@ Image::Image(){
     m_width = 0;
     m_height = 0;
     m_size = 0;
-    m_type = 0
+    m_type = ""; 
     m_data = nullptr;
 }
 
@@ -15,7 +15,7 @@ Image::Image( int width, int height ){
 }
 
 // constructor que carga una imagen de un archivo.
-Image::Image( std::string filename ){
+Image::Image( char* filename ){
     load(filename);
 }
 
@@ -23,9 +23,13 @@ Image::Image( std::string filename ){
 Image::Image( const Image& copy ){
     m_width = copy.m_width;
     m_height = copy.m_height;
-
-    data = new double[size];
-    for ( int i=0; i<size; i++ ) data[i] = copy.data[i];
+    m_size = copy.m_size;
+    m_data = new Pixel[m_size];
+    for ( int i=0; i<m_height; i++ ){
+        for(int j=0; j<m_width; j++){
+        set( i,j, copy.m_data[index(i,j)] );
+        }
+    }
 }
 
 // destructor
@@ -36,12 +40,13 @@ Image::~Image(){
 // método para liberar la memoria dinámica del objeto y restablecer los
 // valores de los atributos a cero.
 bool Image::clear(){
-    if ( data != nullptr ) {
-        delete [] data;
+    if ( m_data != nullptr ) {
+        delete [] m_data;
 
         m_width = 0;
         m_height = 0;
-        data = nullptr;
+        m_data = nullptr;
+        m_type = "";
         return true;
     }
 
@@ -57,7 +62,8 @@ bool Image::set( int width, int height ){
     m_width = width;
     m_height = height;
     m_size = width*height;            
-    data = new Pixel[m_size]; // Pixel o double?
+    m_data = new Pixel[m_size]; // Pixel o double?
+    
     return true;    
 
 }
@@ -69,23 +75,52 @@ bool Image::load( char* filename ){
     fs.open(filename);
     if ( !fs.is_open() ) return false;
 
+    int width, height, max;
+    std::string type;
+    if ( fs.eof() ) return false;
+    fs >> type;
+    if ( fs.eof() ) return false;
+    fs >> width;
+    if ( fs.eof() ) return false;
+    fs >> height;
+    if ( fs.eof() ) return false;
+    fs >> max;
+    if ( width < 1 || height < 1 ) return false;
+    
+    clear();
 
-    if ( fs.eof() ) return false;
-    fs >> m_type;
-    if ( fs.eof() ) return false;
-    fs >> m_width;
-    if ( fs.eof() ) return false;
-    fs >> m_height;
-    if ( m_width < 1 || m_ < 1 ) return false;
-        
+    m_type = type;
+    m_width = width;
+    m_height = height;
+    m_size = width*height;
+    m_data = new Pixel[m_size];
 
+    fs.close();
+    return true;
 
 }
 
 // mpetodo para guardar la información de la imagen contenida en el
 // objeto en un archivo PPM
 bool Image::save( char* filename ){
+    std::ofstream fs;
 
+    fs.open(filename);
+    if ( !fs.is_open() ) return false;
+    
+    fs << m_type[0]; fs << m_type[1] << std::endl;
+    fs << m_width << std::endl;
+    fs << m_height << std::endl;
+
+    for (int i=0; i<m_height; i++ ) {
+        for (int  j=1; j<m_width; j++ ) {
+            fs << " " << int(m_data[index(i,j)].r);
+            fs << " " << int(m_data[index(i,j)].g);
+            fs << " " << int(m_data[index(i,j)].b);
+        }
+    }
+    
+    return true;
 }
 
 // Obtiene el píxel en la posición (x,y)
@@ -93,17 +128,21 @@ bool Image::save( char* filename ){
 // esquina superior izquierda. Es decir, el eje y está invertido con
 // respecto al plano cartesiano.
 Pixel Image::get( int x, int y ){
-
+    return m_data[index(x,y)];
 }
 
 // Cambia el color del píxel en (x,y) por el proporcionado mediante px.
 bool Image::set( int x, int y, Pixel& px ){
-
+    m_data[index(x,y)].r = px.r;
+    m_data[index(x,y)].g = px.g;
+    m_data[index(x,y)].b = px.b;
+    return true;
+        
 }
 
 // Regresa el ancho de la imagen en píxeles.
 int Image::width(){
-    return m_width
+    return m_width;
 }
 
 // Regresa el alto de la imagen en píxeles.
@@ -112,5 +151,5 @@ int Image::height(){
 }
 
 int Image::index( int x, int y ){
-
+    return m_width*x+y;
 }

@@ -2,7 +2,7 @@
 #define _IMAGE_H_
 
 #include <string>
-#include <fsream>
+#include <fstream>
 #include <string>
 #include "pixel.h"
 
@@ -16,7 +16,7 @@ class Image {
         Image( int width, int height );
 
         // constructor que carga una imagen de un archivo.
-        Image( std::string filename );
+        Image( char* filename );
 
         // constructor copia, que crea una imagen nueva a partir de otra.
         Image( const Image& copy );
@@ -58,7 +58,7 @@ class Image {
         int    m_height;
         int    m_maxValue;
         int    m_size;
-        char    m_type[2];
+        std::string  m_type;
         Pixel* m_data;
 
         // Dado que m_data es un vector, hay que convertir las coordenadas (x,y)
