@@ -3,11 +3,15 @@
 
 #include <iostream>
 #include <fstream>
+<<<<<<< HEAD
 #include <cmath>
+=======
+>>>>>>> d5ab66d44dea98324977e8ead81eed8a20df1aac
 
 class Matrix {
     public:
         Matrix();
+<<<<<<< HEAD
         Matrix( int rows, int cols, double value = 0.0 );
         Matrix( int rows, int cols, const double* data);
         Matrix( const char* filename );
@@ -64,5 +68,32 @@ class Matrix {
 
 std::ostream& operator<<( std::ostream& os, const Matrix& M );
 
+=======
+        Matrix( int rows, int cols, double* data);
+        Matrix( char* filename );
+        Matrix( const Matrix& copy );
+        ~Matrix();
+
+        bool clear();
+        bool set( int rows, int cols, double* data );
+        bool load( char* filename );
+        bool save( char* filename );
+
+        //void add();
+        int getrows();
+        int getcols();
+
+        void print();
+
+        bool Matrix::add(const Matrix& B);
+
+    private:
+        int rows;
+        int cols;
+        int size;
+        double* data;
+};
+
+>>>>>>> d5ab66d44dea98324977e8ead81eed8a20df1aac
 #endif
 

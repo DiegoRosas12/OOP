@@ -4,7 +4,12 @@ Image::Image(){
     m_width = 0;
     m_height = 0;
     m_size = 0;
+<<<<<<< HEAD
     m_type = ""; 
+=======
+    m_type[0] = 0;
+    m_type[1] = 0;
+>>>>>>> d5ab66d44dea98324977e8ead81eed8a20df1aac
     m_data = nullptr;
 }
 
@@ -46,7 +51,12 @@ bool Image::clear(){
         m_width = 0;
         m_height = 0;
         m_data = nullptr;
+<<<<<<< HEAD
         m_type = "";
+=======
+        m_type[0] = 0;
+        m_type[1] = 1;
+>>>>>>> d5ab66d44dea98324977e8ead81eed8a20df1aac
         return true;
     }
 
@@ -63,7 +73,10 @@ bool Image::set( int width, int height ){
     m_height = height;
     m_size = width*height;            
     m_data = new Pixel[m_size]; // Pixel o double?
+<<<<<<< HEAD
     
+=======
+>>>>>>> d5ab66d44dea98324977e8ead81eed8a20df1aac
     return true;    
 
 }

@@ -11,6 +11,7 @@ void test1() {
     A.print();
 }
 
+<<<<<<< HEAD
 int main() {
 
     {
@@ -83,6 +84,19 @@ int main() {
 
     // 14  23   3  27
     // 12 -10  46  -2
+=======
+int main( int argc, char** argv ) {
+
+    if ( argc != 2 ) {
+        return 1;
+    }
+
+    char* filename = argv[1];
+
+    Matrix A;
+    A.load(filename);
+    A.print();
+>>>>>>> d5ab66d44dea98324977e8ead81eed8a20df1aac
 
     return 0;
 }
