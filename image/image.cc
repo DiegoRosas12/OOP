@@ -15,19 +15,31 @@ Image::Image( const std::string filename ) : Image() {
     load(filename);
 }
 
-Image::Image( const Image& copy ) : Image() {
-
-    set(copy.m_width, copy.m_height);
-
-    if ( m_data != nullptr ) {
-        for ( int i=0; i<m_width*m_height; i++ ) {
-            m_data[i] = copy.m_data[i];
-        }
-    }
+Image::Image( const Image& cp ) : Image() {
+    copy(cp);
 }
 
 Image::~Image() {
     clear();
+}
+void Image::copy(const Image& cp){
+    clear();
+
+    m_height = cp.m_height;
+    m_width = cp.m_height;
+    
+    if ( m_data != nullptr ) {
+        for ( int i=0; i<m_width*m_height; i++ ) {
+            m_data[i] = cp.m_data[i];
+        }
+    }
+
+}
+
+Image Image::copy() const {
+    Image I;
+    I.copy(*this);
+    return I;
 }
 
 bool Image::clear() {
@@ -121,13 +133,38 @@ int Image::width() const {
 int Image::height() const {
     return m_height;
 }
+Image& Image::operator=(const Image& im){
+    copy(im);
+    return *this;
+}
+Color& Image::operator()(int x, int y){
+    return m_data[index(x,y)];
+
+}
+Color& Image::at(int x, int y){
+    return m_data[index(x,y)];
+}
+bool Image::operator==(const Image& im){
+    //const double delta = 0.000001;
+
+    if ( m_height != im.m_height ) return false;
+    if ( m_width != im.m_width ) return false;
+
+        // la siguiente comparación no funciona bien con flotantes, ya que
+        // algunos números no se pueden representar y las operaciones con
+        // flotantes producen resultados con cierta inexactitud.
+    for(int i; i<(m_height*m_width);i++)
+        if ( m_data[i] != im.m_data[i] ) return false;
+
+
+    return true;
+}
+bool Image::operator!=(const Image& im){
+    return !operator==(im);
+}
 
 int Image::index( int x, int y ) const {
     return (m_width*y + x);
-}
-
-double& Image::at(int x, int y) {
-    return m_data[index(x,y)];
 }
 
 bool Image::load_ppm( const std::string filename ) {

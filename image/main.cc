@@ -16,10 +16,10 @@ int main( int argc, char** argv ) {
         for (int x=0; x<im.width(); x++){
         d = (x-cx)*(x-cx) + (y-cy)*(y-cy);
         if (d <= r*r) {
-            im.at(x,y) = Color(Color::Name::RED);
+            im.at(x,y) = Color::VGA::RED;
         } 
         else {
-            im.at(x,y) = Color(Color::Name::WHITE);
+            im.at(x,y) = Color::VGA::WHITE;
         }
         }
     }

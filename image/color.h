@@ -45,6 +45,8 @@ struct Color {
 
     // imprime el color en stdout
     void print();
+    bool operator==(const Color& c);
+    bool operator!=(const Color& c);
 
     unsigned char r;
     unsigned char g;

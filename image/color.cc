@@ -22,93 +22,95 @@ Color::Color( int red, int green, int blue, int alpha ) {
     a = alpha;
 }
 
-Color( VGA name ) {
+//Color(VGA name) {
+Color::Color(VGA name) {
 
     a = 255;
-    switch( name ) {
-        case BLACK:
+    // añadir VGA:: a los colores
+    switch(name) {
+        case VGA::BLACK:
             r = 0;
             g = 0;
             b = 0;
             break;
-        case GRAY:
+        case VGA::GRAY:
             r = 128;
             g = 128;
             b = 128;
             break;
-        case SILVER:
+        case VGA::SILVER:
             r = 192;
             g = 192;
             b = 192;
             break;
-        case WHITE:
+        case VGA::WHITE:
             r = 255;
             g = 255;
             b = 255;
             break;
-        case MAROON:
+        case VGA::MAROON:
             r = 128;
             g = 0;
             b = 0;
             break;
-        case RED:
+        case VGA::RED:
             r = 255;
             g = 0;
             b = 0;
             break;
-        case OLIVE:
+        case VGA::OLIVE:
             r = 128;
             g = 128;
             b = 0;
             break;
-        case YELLOW:
+        case VGA::YELLOW:
             r = 255;
             g = 255;
             b = 0;
             break;
-        case GREEN:
+        case VGA::GREEN:
             r = 0;
             g = 128;
             b = 0;
             break;
-        case LIME:
+        case VGA::LIME:
             r = 0;
             g = 255;
             b = 0;
             break;
-        case TEAL:
+        case VGA::TEAL:
             r = 0;
             g = 128;
             b = 128;
             break;
-        case AQUA:
-        case CYAN:
+        case VGA::AQUA:
+        case VGA::CYAN:
             r = 0;
             g = 255;
             b = 255;
             break;
-        case NAVY:
+        case VGA::NAVY:
             r = 0;
             g = 0;
             b = 128;
             break;
-        case BLUE:
+        case VGA::BLUE:
             r = 0;
             g = 0;
             b = 255;
             break;
-        case PURPLE:
+        case VGA::PURPLE:
             r = 128;
             g = 0;
             b = 128;
             break;
-        case FUCHSIA:
-        case MAGENTA:
+        case VGA::FUCHSIA:
+        case VGA::MAGENTA:
             r = 255;
             g = 0;
             b = 255;
             break;
-        case CLEAR:
+        case VGA::CLEAR:
         default:
             r = 0;
             g = 0;
@@ -121,5 +123,17 @@ void Color::print() {
     std::cout << "RGBA";
     std::cout << "(" << int(r) << "," << int(g) << "," << int(b);
     std::cout << "," << int(a) << ")" << std::endl;
+}
+bool Color::operator==(const Color& c){
+    if (r!=c.r) return false;
+    if (g!=c.g) return false;
+    if (b!=c.b) return false;
+    if (a!=c.a) return false;            
+    
+    return true;
+}
+
+bool Color::operator!=(const Color& c){
+    return !operator==(c);
 }
 
