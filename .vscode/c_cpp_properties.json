@@ -7,7 +7,7 @@
                 "${workspaceRoot}"
             ],
             "defines": [],
-            "compileCommands":  "/usr/include/c++/4.2.1",
+            "compileCommands": "/usr/include/c++/4.2.1",
             "intelliSenseMode": "clang-x64",
             "browse": {
                 "path": [
@@ -48,7 +48,10 @@
                 ],
                 "limitSymbolsToIncludedHeaders": true,
                 "databaseFilename": ""
-            }
+            },
+            "compilerPath": "/usr/bin/gcc",
+            "cStandard": "c11",
+            "cppStandard": "c++17"
         },
         {
             "name": "Win32",

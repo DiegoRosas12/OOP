@@ -1,24 +1,28 @@
 #ifndef _CIRCLE_H
 #define _CIRCLE_H
 
+#include "point.h"
+#include "color.h"
+
 class Circle {
     public:
 
     Circle();
-    Circle(double x, double y);
-    Circle(double x, double y, double radius);
-    Circle(const Circle& copy);
-    ~Circle();
+    Circle(Point center, double radius, Color fill=Color(Color::VGA::BLACK) );
 
-    bool set(double posx, double posy, double radius);
-    bool draw();
+    double& radius();
+    Point& center();
+    Color& fill();
 
+    bool inside(Point pt);
+    Color test(Point pt);
+    
     private:
-
-    double m_posx;
-    double m_posy;
     double m_radius;
-
+    Point m_center;
+    Color m_fill; //cambiar eventualmente a FILL
 };
+
+inline double pow2(double a);
 
 #endif
