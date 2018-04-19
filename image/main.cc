@@ -1,10 +1,29 @@
 #include <iostream>
 #include "image.h"
 #include "color.h"
+#include "point.h"
+#include "circle.h"
 
 using namespace std;
 
 int main( int argc, char** argv ) {
+    
+    Image im(800,600);
+    Color pixel;
+    Point pt;
+
+    Circle circ(Point(400.0,300.0), 175.0, Color::VGA::CYAN);
+    
+    for (int j=0; j<600; j++){
+        for (int i=0; i<800; i++){
+            pt = Point(double(i), double(j));
+            pixel = circ.test(pt);
+
+            im.at(i,j) = pixel;
+        }
+    }
+    
+    /*
     Image im(800,600);
     double d;
 
@@ -23,6 +42,7 @@ int main( int argc, char** argv ) {
         }
         }
     }
+    */
     im.save("circle.png", Image::Format::PNG);
     return 0;
 }
