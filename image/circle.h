@@ -3,8 +3,9 @@
 
 #include "point.h"
 #include "color.h"
+#include "shape.h"
 
-class Circle {
+class Circle : public Shape{
     public:
 
     Circle();
@@ -17,7 +18,7 @@ class Circle {
     bool inside(Point pt);
     Color test(Point pt);
     
-    private:
+    protected:
     double m_radius;
     Point m_center;
     Color m_fill; //cambiar eventualmente a FILL

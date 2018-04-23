@@ -4,6 +4,8 @@
             "name": "Mac",
             "includePath": [
                 "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include",
+                "/Users/diego/GoogleDrive/Developer/OOP/image",
+                "/Users/diego/GoogleDrive/Developer/OOP/",
                 "${workspaceRoot}"
             ],
             "defines": [],
