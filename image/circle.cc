@@ -1,45 +1,61 @@
 #include "circle.h"
 
-Circle::Circle(){
+Circle::Circle()
+{
     m_radius = 0.0;
 }
-Circle::Circle(Point center, double radius, Color fill) : Circle() {
-    if (radius < 0.0) return;
 
-    m_bbox = Bbox(Point(center.x-radius, center.y-radius), Point(center.x+radius, center.y+radius));
+Circle::Circle(Point center, double radius, Color fill) : Circle()
+{
 
+    if (radius < 0.0)
+        return;
+
+    // define el bounding box
+    m_bbox = Bbox(Point(center.x - radius, center.y - radius),
+                  Point(center.x + radius, center.y + radius));
     m_radius = radius;
     m_center = center;
     m_fill = fill;
+    // fill() = fill;
 }
-double& Circle::radius(){
+
+double &Circle::radius()
+{
     return m_radius;
 }
-Point& Circle::center(){
+
+Point &Circle::center()
+{
     return m_center;
 }
-Color& Circle::fill(){
-    return m_fill;
-}
-//OVERRIDE
 
-bool Circle::inside(Point pt){
+// OVERRIDE
+bool Circle::inside(Point pt)
+{
+    if (!m_bbox.test(pt))
+        return false;
     double d;
-
-    // verifica que pt esté dentro del bbox
-    if ( !m_bbox.test(pt)) return false;
-    d = pow2(pt.x - m_center.x) + pow2(pt.y - m_center.y);
-
-    if (d <= pow2(m_radius)) return true;
+    double x = pt.x - m_center.x;
+    double y = pt.y - m_center.y;
+    d = x * x + y * y; /* pow2(pt.x - m_center.x) + pow2(pt.y - m_center.y); */
+    if (d <= m_radius * m_radius)
+        return true;
     return false;
 }
-Color Circle::test(Point pt){
-    if (inside(pt)) {
+
+// OVERRIDE
+/* Color Circle::test(Point pt)
+{
+    if (inside(pt))
+    {
         return m_fill;
     }
-        // return Color(); //CLEAR
-        return Color::VGA::CLEAR;
-}
-inline double pow2(double a){
-    return a*a;
-}
+    // return Color(); // CLEAR
+    return Color::Name::CLEAR;
+} */
+
+/* inline double pow2(double a)
+{
+    return a * a;
+} */
