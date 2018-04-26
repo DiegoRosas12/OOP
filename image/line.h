@@ -1,3 +1,6 @@
+// Universidad de Guanajuato
+// Diego Eduardo Rosas Gonzalez
+
 #ifndef _LINE_H_
 #define _LINE_H_
 #include "point.h"
@@ -9,11 +12,11 @@ class Line {
     Line(Point a1, Point b1);
     bool set(Point A1, Point B1);
     bool inter(Line L1, Line L2);
+    Point intersec;
 
     private:
     Point a1;
     Point b1;
-    Point intersec;
     double m;
     double b;
     double x; // valor en caso de que la línea sea paralela
