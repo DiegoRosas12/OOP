@@ -13,7 +13,7 @@ int main()
     Color pixel;
     Point pt;
 
-    // Circle circ(Point(400.0,300.0), 175.0, Color::Name::CYAN);
+    Circle circ(Point(400.0,300.0), 175.0, Color::Name::CYAN);
     Box bob(Point(100, 100), Point(400, 400), Color::Name::PURPLE);
     for (int j = 0; j < 600; j++)
     {

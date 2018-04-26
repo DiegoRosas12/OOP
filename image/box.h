@@ -12,7 +12,7 @@ public:
   Box(Point topleft, Point bottomright,
       Color fill = Color::Name::BLACK);
   bool inside(Point &pt);
-  //   Color test(Point &pt);
+  Color test(Point &pt);
 
   // protected:
 };

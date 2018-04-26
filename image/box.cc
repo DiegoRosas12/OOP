@@ -20,7 +20,7 @@ bool Box::inside(Point &pt)
     return false;
 }
 
-/* Color Box::test(Point &pt)
+Color Box::test(Point &pt)
 {
     if (inside(pt))
     {
@@ -28,4 +28,4 @@ bool Box::inside(Point &pt)
     }
     // return Color(); // CLEAR
     return Color::Name::CLEAR;
-} */
+}
