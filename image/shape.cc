@@ -7,7 +7,7 @@ bool Shape::inside(Point &pt)
     return false;
 }
 
-Color &Shape::fill()
+Color& Shape::fill()
 {
     return m_fill;
 }
