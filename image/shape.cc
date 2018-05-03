@@ -1,6 +1,11 @@
 #include "shape.h"
 
 Shape::Shape() {}
+Shape::~Shape() {
+
+}
+
+Bbox& 
 
 bool Shape::inside(Point &pt)
 {

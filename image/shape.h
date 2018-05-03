@@ -13,9 +13,13 @@ public:
         int vertx = 0, double inclination = 0);
   bool inside(Point pt); */
   Shape();
+  virtual ~Shape();
   Color &fill();
-  bool inside(Point &pt);
-  Color test(Point &pt);
+
+  Bbox& bbox();
+  virtual bool inside(Point &pt) = 0; //makes abstract class
+  Color test(Point pt);  
+  Color test(Point& pt);
 
 protected:
   /* int vertx;
