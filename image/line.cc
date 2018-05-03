@@ -1,74 +1,122 @@
 #include "line.h"
 
-Line::Line(){
-    clear();
+
+Line::Line() { }
+
+Line::Line( Point pt0, Point pt1 ) : Line() {
+    m_pt0 = pt0;
+    m_pt1 = pt1;
+
+    // denominador de la pendiente
+    m_denom = pt1.x - pt0.x;
+
+    // pendiente
+    m_slope = (pt1.y - pt0.y)/m_denom;
+
+    // desplazamiento
+    m_bias = pt0.y - m_slope*pt0.x;
 }
 
-Line::Line(Point a1, Point b1) : Line() {
-    set(a1,b1);
-}
+bool Line::intersection( Point& pt, const Line& ln ) {
 
-bool Line::set(Point A1, Point B1){
-    clear();
-    if ( (A1.x == B1.x) && (A1.y == B1.y) ) return false;
-    if (!isVertical()){
-    a1 = A1;
-    b1 = B1;
-    m = ( A1.y - B1.y) / ( A1.x - B1.x );
-    b = B1.y - m;
+    // CASO 1: líneas paralelas
+    if ( m_slope == ln.m_slope ) return false;
+
+    // encuentra el punto de intersección entre las rectas this y ln.
+    Point ipt = solve(ln);
+
+    // verificar que el punto ipt se encuentre sobre ambos segmentos de recta
+    if ( !intseg(ipt, *this) ) return false;
+    if ( !intseg(ipt, ln) ) return false;
+
+    // cambia la referencia por el punto de intersección
+    pt = ipt;
     return true;
-    }else{
-    x = A1.x;
+}
+
+double Line::slope() {
+    return m_slope;
+}
+
+double Line::bias() {
+    return m_bias;
+}
+
+Point Line::point( int index ) {
+    if ( index == 0 ) return m_pt0;
+    if ( index == 1 ) return m_pt1;
+    return Point();
+}
+
+Point Line::solve( const Line& ln ) {
+
+    // punto de intersección
+    Point ipt;
+
+    // CASO 2: this con pendiente infinita, ln con pendiente finita
+    if ( m_denom == 0.0 && ln.m_denom != 0.0 ) {
+        ipt.x = m_pt0.x;
+        ipt.y = ln.m_slope*ipt.x + ln.m_bias;
+    }
+
+    // CASO 3: this con pendiente finita, ln con pendiente infinita
+    if ( m_denom != 0.0 && ln.m_denom == 0.0 ) {
+        ipt.x = ln.m_pt0.x;
+        ipt.y = m_slope*ipt.x + m_bias;
+    }
+
+    // CASO 4: todas las pendientes finitas
+    if ( m_denom != 0.0 && ln.m_denom != 0.0 ) {
+        ipt.x = (m_bias - ln.m_bias)/(ln.m_slope - m_slope);
+        ipt.y = m_slope*ipt.x + m_bias;
+    }
+
+    return ipt;
+}
+
+bool Line::intseg( const Point& pt, const Line& ln ) {
+
+    // asigna a x0 la coordenada x mínima, y a x1 la máxima
+    double x0, x1;
+    if ( ln.m_pt0.x <= ln.m_pt1.x ) {
+        x0 = ln.m_pt0.x;
+        x1 = ln.m_pt1.x;
+    }
+    else {
+        x0 = ln.m_pt1.x;
+        x1 = ln.m_pt0.x;
+    }
+
+    // asigna a y0 la coordenada y mínima, y a y1 la máxima
+    double y0, y1;
+    if ( ln.m_pt0.y <= ln.m_pt1.y ) {
+        y0 = ln.m_pt0.y;
+        y1 = ln.m_pt1.y;
+    }
+    else {
+        y0 = ln.m_pt1.y;
+        y1 = ln.m_pt0.y;
+    }
+
+    // conprueba que el punto esté dentro de las coordenadas
+    if ( pt.x < x0 || pt.x > x1 ) return false;
+    if ( pt.y < y0 || pt.y > y1 ) return false;
     return true;
-    }
 }
-bool Line::isVertical(){
-    if (a1.x == b1.x){
-        x = a1.x;
-        return true;
-    }else{
-        return false;
-    }
+// contruye una linea
+Line Line::set(Line& ln,  Point pt0, Point pt1 ) {
+    ln.m_pt0 = pt0;
+    ln.m_pt1 = pt1;
+
+    // denominador de la pendiente
+    ln.m_denom = pt1.x - pt0.x;
+
+    // pendiente
+    ln.m_slope = (pt1.y - pt0.y)/m_denom;
+
+    // desplazamiento
+    ln.m_bias = pt0.y - m_slope*pt0.x;
+
+    return ln;
 }
 
-bool Line::isParallel(Line L1, Line L2){
-    if ( L1.isVertical() && L2.isVertical()) {
-        if (L1.x == L2.x) return false;
-        return true;
-    }else if (L1.isVertical() && !L2.isVertical()) {
-        intersec.x = L1.x;
-        intersec.y = (L1.x * L2.m) + L2.b;
-    }else if (!L1.isVertical() && L2.isVertical()){
-        intersec.x = L2.x;
-        intersec.y = (L2.x * L1.m) + L1.b;
-        return false;
-    }else if (!L1. isVertical() && !L2.isVertical()){
-        if (L1.m == L2.m) return true;
-        intersec.x = (L2.b - L1.b) / (L1.m - L2.m);
-        intersec.y = (L2.m*L1.b - L2.b*L1.m) / (L2.m - L1.m);
-        return false;
-    }
-}
-
-bool Line::inter(Line L1, Line L2){
-    if (isParallel(L1,L2)) {
-        return false;
-    }else{
-        // Punto intersec ya se calculó en parallel
-        if((L1.a1.x <= intersec.x <= L1.b1.x) && (L2.a1.x <= intersec.x <= L2.b1.x) && \
-        (L1.a1.y <= intersec.y <= L1.b1.y) && (L2.a1.y <= intersec.y <= L2.b1.y)) return true;
-        return false;    
-    }
-}
-
-void Line::clear(){
-    a1.x = 0;
-    a1.y = 0;
-    b1.x = 0;
-    b1.y = 0;
-    intersec.x = 0;
-    intersec.y = 0;
-    m = 0;
-    b = 0;
-    x = 0;
-}

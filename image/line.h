@@ -1,28 +1,31 @@
-// Universidad de Guanajuato
-// Diego Eduardo Rosas Gonzalez
-
 #ifndef _LINE_H_
 #define _LINE_H_
+
 #include "point.h"
 
 class Line {
     public:
+        Line();
+        Line( Point pt0, Point pt1 );
 
-    Line();
-    Line(Point a1, Point b1);
-    bool set(Point A1, Point B1);
-    bool inter(Line L1, Line L2);
-    Point intersec;
+        bool intersection( Point& pt, const Line& ln );
+
+        double slope();
+        double bias();
+        Point point( int index );
+
+        Line set(Line& ln, Point pt0, Point pt1);
 
     private:
-    Point a1;
-    Point b1;
-    double m;
-    double b;
-    double x; // valor en caso de que la línea sea paralela
-    bool isVertical();
-    bool isParallel(Line L1, Line L2);
-    void clear();
+        Point m_pt0;
+        Point m_pt1;
+        double m_denom;
+        double m_slope;
+        double m_bias;
+
+        Point solve( const Line& ln );
+        bool intseg( const Point& pt, const Line& ln );
 };
 
 #endif
+

@@ -1,7 +1,6 @@
 #include "box.h"
 
-Box::Box()
-{
+Box::Box(){
 }
 
 Box::Box(Point topleft, Point bottomright, Color fill)

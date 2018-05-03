@@ -17,7 +17,7 @@ public:
   //Color &fill();
 
   bool inside(Point pt);
-  // Color test(Point pt);
+  Color test(Point pt);
 
 protected:
   double m_radius;

@@ -10,7 +10,7 @@ class Box : public Shape
 public:
   Box();
   Box(Point topleft, Point bottomright,
-      Color fill = Color::Name::BLACK);
+      Color fill = Color::Name::BLUE);
   bool inside(Point &pt);
   Color test(Point &pt);
 

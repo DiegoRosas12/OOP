@@ -45,7 +45,7 @@ bool Circle::inside(Point pt)
 }
 
 // OVERRIDE
-/* Color Circle::test(Point pt)
+Color Circle::test(Point pt)
 {
     if (inside(pt))
     {
@@ -53,7 +53,7 @@ bool Circle::inside(Point pt)
     }
     // return Color(); // CLEAR
     return Color::Name::CLEAR;
-} */
+} 
 
 /* inline double pow2(double a)
 {

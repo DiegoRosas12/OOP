@@ -4,6 +4,7 @@
 #include "point.h"
 #include "circle.h"
 #include "box.h"
+#include "regular.h"
 
 using namespace std;
 
@@ -15,6 +16,7 @@ int main()
 
     Circle circ(Point(400.0,300.0), 175.0, Color::Name::CYAN);
     Box bob(Point(100, 100), Point(400, 400), Color::Name::PURPLE);
+    
     for (int j = 0; j < 600; j++)
     {
         for (int i = 0; i < 800; i++)
