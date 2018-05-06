@@ -1,50 +1,37 @@
 #include "image.h"
 
-
-Image::Image() {
+Image::Image()
+{
     m_width = 0;
     m_height = 0;
     m_data = nullptr;
 }
 
-Image::Image( int width, int height ) : Image() {
+Image::Image(int width, int height) : Image()
+{
     set(width, height);
 }
 
-Image::Image( const std::string filename ) : Image() {
+Image::Image(const std::string filename) : Image()
+{
     load(filename);
 }
 
-Image::Image( const Image& cp ) : Image() {
+Image::Image(const Image &cp) : Image()
+{
     copy(cp);
 }
 
-Image::~Image() {
+Image::~Image()
+{
     clear();
 }
-void Image::copy(const Image& cp){
-    clear();
 
-    m_height = cp.m_height;
-    m_width = cp.m_height;
-    
-    if ( m_data != nullptr ) {
-        for ( int i=0; i<m_width*m_height; i++ ) {
-            m_data[i] = cp.m_data[i];
-        }
-    }
-
-}
-
-Image Image::copy() const {
-    Image I;
-    I.copy(*this);
-    return I;
-}
-
-bool Image::clear() {
-    if ( m_data != nullptr ) {
-        delete [] m_data;
+bool Image::clear()
+{
+    if (m_data != nullptr)
+    {
+        delete[] m_data;
 
         m_width = 0;
         m_height = 0;
@@ -55,119 +42,136 @@ bool Image::clear() {
     return false;
 }
 
-bool Image::set( int width, int height ) {
+bool Image::set(int width, int height)
+{
 
-    if ( width < 1 || height < 1 ) return false;
+    if (width < 1 || height < 1)
+        return false;
 
     clear();
 
     m_width = width;
     m_height = height;
-    m_data = new Color[width*height];
+    m_data = new Color[width * height];
 
     // Que valor tienen los píxeles?
 
     return true;
 }
 
-bool Image::load( const std::string filename ) {
+// copia los datos de cp en el objeto actual (*this)
+bool Image::copy(const Image &cp)
+{
+
+    if (set(cp.m_width, cp.m_height) == false)
+        return false;
+
+    if (m_data != nullptr)
+    {
+        for (int i = 0; i < m_width * m_height; i++)
+        {
+            m_data[i] = cp.m_data[i];
+        }
+
+        return true;
+    }
+
+    return false;
+}
+
+bool Image::load(const std::string filename)
+{
     bool good;
 
     // trata de abrir un PPM
     good = load_ppm(filename);
-    if ( good ) return true;
+    if (good)
+        return true;
 
     // trata de abrir un PNG
     good = load_png(filename);
-    if ( good ) return true;
+    if (good)
+        return true;
 
     return false;
 }
 
+bool Image::save(const std::string filename, Format imgformat) const
+{
 
-bool Image::save( const std::string filename, Format imgformat ) const {
-
-    switch ( imgformat ) {
-        case Format::PPM:
-            return save_ppm(filename);
-        case Format::PNG:
-            return save_png(filename);
+    switch (imgformat)
+    {
+    case Format::PPM:
+        return save_ppm(filename);
+    case Format::PNG:
+        return save_png(filename);
     }
 
     return false;
 }
 
-Color Image::getpixel( int x, int y ) const {
-    // exception
-    if ( x < 0 || y < 0 || x >= m_width || y >= m_height ) {
-        return Color(0,0,0,0);
-    }
-
-    return m_data[index(x,y)];
+Color &Image::at(int x, int y)
+{
+    return m_data[index(x, y)];
 }
 
-bool Image::setpixel( int x, int y, const Color color ) {
-    //exception
-    if ( x < 0 || y < 0 || x >= m_width || y >= m_height ) {
-        return false;
-    }
-
-    m_data[index(x,y)] = color;
-    return true;
-}
-
-bool Image::setpixel( int x, int y, const Color& color ) {
-    //exception
-    if ( x < 0 || y < 0 || x >= m_width || y >= m_height ) {
-        return false;
-    }
-
-    m_data[index(x,y)] = color;
-    return true;
-}
-
-int Image::width() const {
+int Image::width() const
+{
     return m_width;
 }
 
-int Image::height() const {
+int Image::height() const
+{
     return m_height;
 }
-Image& Image::operator=(const Image& im){
+
+Image &Image::operator=(const Image &im)
+{
     copy(im);
     return *this;
 }
-Color& Image::operator()(int x, int y){
-    return m_data[index(x,y)];
 
+Color &Image::operator()(int x, int y)
+{
+    return m_data[index(x, y)];
 }
-Color& Image::at(int x, int y){
-    return m_data[index(x,y)];
-}
-bool Image::operator==(const Image& im){
-    //const double delta = 0.000001;
 
-    if ( m_height != im.m_height ) return false;
-    if ( m_width != im.m_width ) return false;
+bool Image::operator==(const Image &im)
+{
 
-        // la siguiente comparación no funciona bien con flotantes, ya que
-        // algunos números no se pueden representar y las operaciones con
-        // flotantes producen resultados con cierta inexactitud.
-    for(int i; i<(m_height*m_width);i++)
-        if ( m_data[i] != im.m_data[i] ) return false;
+    if (m_width != im.m_width)
+        return false;
+    if (m_height != im.m_height)
+        return false;
 
+    for (int i = 0; i < m_width * m_height; i++)
+    {
+        // implementar comparación de colores
+        if (m_data[i].r != im.m_data[i].r)
+            return false;
+        if (m_data[i].g != im.m_data[i].g)
+            return false;
+        if (m_data[i].b != im.m_data[i].b)
+            return false;
+        if (m_data[i].a != im.m_data[i].a)
+            return false;
+    }
 
     return true;
 }
-bool Image::operator!=(const Image& im){
+
+bool Image::operator!=(const Image &im)
+{
     return !operator==(im);
 }
 
-int Image::index( int x, int y ) const {
-    return (m_width*y + x);
+int Image::index(int x, int y) const
+{
+    return (m_width * y + x);
 }
 
-bool Image::load_ppm( const std::string filename ) {
+bool Image::load_ppm(const std::string filename)
+{
     std::ifstream fs;
     std::string ppmid;
     int width;
@@ -177,7 +181,8 @@ bool Image::load_ppm( const std::string filename ) {
 
     fs.open(filename);
 
-    if ( !fs.is_open() ) return false;
+    if (!fs.is_open())
+        return false;
 
     fs >> ppmid;
     fs >> width;
@@ -185,13 +190,19 @@ bool Image::load_ppm( const std::string filename ) {
     fs >> level;
 
     // comprobaciones
-    if ( fs.eof() ) bad = true;
-    if ( ppmid != "P3" ) bad = true;
-    if ( width < 1 ) bad = true;
-    if ( height < 1 ) bad = true;
-    if ( level < 1 || level > 255 ) bad = true;
+    if (fs.eof())
+        bad = true;
+    if (ppmid != "P3")
+        bad = true;
+    if (width < 1)
+        bad = true;
+    if (height < 1)
+        bad = true;
+    if (level < 1 || level > 255)
+        bad = true;
 
-    if ( bad ) {
+    if (bad)
+    {
         fs.close();
         return false;
     }
@@ -201,12 +212,14 @@ bool Image::load_ppm( const std::string filename ) {
     int red;
     int green;
     int blue;
-    for ( int i=0; i<width*height; i++ ) {
+    for (int i = 0; i < width * height; i++)
+    {
         fs >> red;
         fs >> green;
         fs >> blue;
 
-        if ( fs.eof() ) {
+        if (fs.eof())
+        {
             bad = true;
             break;
         }
@@ -216,16 +229,19 @@ bool Image::load_ppm( const std::string filename ) {
 
     fs.close();
 
-    if ( bad ) return false;
+    if (bad)
+        return false;
     return true;
 }
 
-bool Image::save_ppm( const std::string filename ) const {
+bool Image::save_ppm(const std::string filename) const
+{
     std::ofstream fs;
 
     fs.open(filename);
 
-    if ( !fs.is_open() ) return false;
+    if (!fs.is_open())
+        return false;
 
     // se escribe el identificador
     fs << "P3" << std::endl;
@@ -240,7 +256,8 @@ bool Image::save_ppm( const std::string filename ) const {
     fs << 255 << std::endl;
 
     // se escriben los datos RGB
-    for ( int i=0; i<m_width*m_height; i++ ) {
+    for (int i = 0; i < m_width * m_height; i++)
+    {
         // se requiere un casting int() porque queremos imprimir el número que
         // representa cada canal, y no un caracter ASCII.
         fs << int(m_data[i].r) << " ";
@@ -253,21 +270,24 @@ bool Image::save_ppm( const std::string filename ) const {
     return true;
 }
 
-bool Image::load_png( const std::string filename ) {
+bool Image::load_png(const std::string filename)
+{
     unsigned int width, height, error;
     std::vector<unsigned char> raw;
 
-    error = lodepng::decode(raw, width, height, filename.c_str());
-    if ( error ) return false;
+    error = lodepng::decode(raw, width, height, filename);
+    if (error)
+        return false;
 
     set(width, height);
 
     int red, green, blue, alpha;
-    for ( int i=0; i<int(width*height); i++ ) {
-        red   = raw[4*i+0];
-        green = raw[4*i+1];
-        blue  = raw[4*i+2];
-        alpha = raw[4*i+3];
+    for (int i = 0; i < int(width * height); i++)
+    {
+        red = raw[4 * i + 0];
+        green = raw[4 * i + 1];
+        blue = raw[4 * i + 2];
+        alpha = raw[4 * i + 3];
 
         m_data[i] = Color(red, green, blue, alpha);
     }
@@ -275,22 +295,24 @@ bool Image::load_png( const std::string filename ) {
     return true;
 }
 
-bool Image::save_png( const std::string filename ) const {
+bool Image::save_png(const std::string filename) const
+{
     std::vector<unsigned char> raw;
     unsigned int error;
 
-    raw.resize(4*m_width*m_height);
+    raw.resize(4 * m_width * m_height);
 
-    for ( int i=0; i<m_width*m_height; i++ ) {
-        raw[4*i+0] = m_data[i].r;
-        raw[4*i+1] = m_data[i].g;
-        raw[4*i+2] = m_data[i].b;
-        raw[4*i+3] = m_data[i].a;
+    for (int i = 0; i < m_width * m_height; i++)
+    {
+        raw[4 * i + 0] = m_data[i].r;
+        raw[4 * i + 1] = m_data[i].g;
+        raw[4 * i + 2] = m_data[i].b;
+        raw[4 * i + 3] = m_data[i].a;
     }
 
-    error = lodepng::encode(filename.c_str(), raw, m_width, m_height);
+    error = lodepng::encode(filename, raw, m_width, m_height);
 
-    if ( error ) return false;
+    if (error)
+        return false;
     return true;
 }
-

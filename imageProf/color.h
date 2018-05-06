@@ -21,32 +21,12 @@
 // px2.r = 255;
 // px4.a = 128;
 //
-struct Color
-{
+struct Color {
 
     // colores enumerados
-    enum class Name
-    {
-        CLEAR,
-        BLACK,
-        GRAY,
-        SILVER,
-        WHITE,
-        MAROON,
-        RED,
-        OLIVE,
-        YELLOW,
-        GREEN,
-        LIME,
-        TEAL,
-        AQUA,
-        CYAN,
-        NAVY,
-        BLUE,
-        PURPLE,
-        FUCHSIA,
-        MAGENTA
-    };
+    enum class Name { CLEAR, BLACK, GRAY, SILVER, WHITE, MAROON, RED, OLIVE,
+                      YELLOW, GREEN, LIME, TEAL, AQUA, CYAN, NAVY, BLUE,
+                      PURPLE, FUCHSIA, MAGENTA };
 
     // constructor por defecto, inicializa todo en cero
     // el color resultante es completamente transparente
@@ -54,14 +34,14 @@ struct Color
 
     // constructor que inicializa el color con un tono de gris
     // el canal alpha es opcional, y por default es 255 (completamente opaco)
-    Color(int gray, int alpha = 255);
+    Color( int gray, int alpha=255 );
 
     // constructor que inicializa el color con un color RGB
     // el canal alpha es opcional, y por default es 255 (completamente opaco)
-    Color(int red, int green, int blue, int alpha = 255);
+    Color( int red, int green, int blue, int alpha=255 );
 
     // constructor que usa una constantes de color predefinida
-    Color(Name name);
+    Color( Name name );
 
     // imprime el color en stdout
     void print();
@@ -73,3 +53,4 @@ struct Color
 };
 
 #endif
+
