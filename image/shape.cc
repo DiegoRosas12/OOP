@@ -5,8 +5,6 @@ Shape::~Shape() {
 
 }
 
-Bbox& 
-
 bool Shape::inside(Point &pt)
 {
     return false;

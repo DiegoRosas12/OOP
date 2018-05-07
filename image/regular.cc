@@ -1,5 +1,4 @@
 #include "regular.h"
-#include "cmath"
 
 Regular::Regular(){
     m_center.x = 0;
@@ -13,12 +12,12 @@ Regular::Regular( Point center, double radius, int sides, Color fill ) : Regular
     if (radius < 0.0) return;
 
     // define el bounding box
-    m_bbox = Bbox(Point(center.x - radius, center.y - radius), Point(center.x + radius, center.y + radius));
+    m_bbox = Bbox(Point(center.x - radius - 0.000000001, center.y - radius - 0.00000001), Point(center.x + radius + 0.000000001, center.y + radius + 0.00000001));
     m_center = center;
     m_radius = radius;
     m_sides = sides;
 
-    double gradsFrac = 2*3.1416 / double(sides);
+    double gradsFrac = 2.0*M_PI / double(sides);
     double countGrads = 0.0;
     Point p;
 
@@ -26,8 +25,8 @@ Regular::Regular( Point center, double radius, int sides, Color fill ) : Regular
     for (int i=0; i<sides; i++){
         // x =  radio * cos ( a (radianes ) + h
         // y = radio * sen ( a (radianes) )+ k
-        p.x = radius * cos(countGrads) + center.x;
-        p.y = radius * sin(countGrads) + center.y;
+        p.x = radius * std::cos(countGrads) + center.x;
+        p.y = radius * std::sin(countGrads) + center.y;
         m_points.push_back(p);
         countGrads += gradsFrac;
     }

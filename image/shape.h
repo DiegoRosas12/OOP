@@ -17,7 +17,7 @@ public:
   Color &fill();
 
   Bbox& bbox();
-  virtual bool inside(Point &pt) = 0; //makes abstract class
+  bool inside(Point &pt); //makes abstract class
   Color test(Point pt);  
   Color test(Point& pt);
 

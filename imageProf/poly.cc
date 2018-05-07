@@ -39,17 +39,16 @@ Point Poly::vert( int index ) {
 bool Poly::inside( Point& pt ) {
 
    // verifica que pt esté dentro del bbox
-   if ( !m_bbox.test(pt) ) return false;
+   if ( !m_bbox.test(pt) ){
+       return false;
+   } 
 
    int count = 0;
    Point cc = m_bbox.topleft();
-   cc.x -= 1.0;
-   cc.y -= 1.0;
+//    cc.x -= 1.0;
+//    cc.y -= 2.0;
+   
    Line test = Line(cc, pt);
-
-   // for ( int i=0; i<m_side.size(); i ++ ) {
-   //     if ( test.intersection(m_side[i]) ) count ++;
-   // }
 
    for ( auto ln : m_side ) {
        if ( test.intersection(ln) ) count ++;

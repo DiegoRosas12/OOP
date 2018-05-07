@@ -4,11 +4,15 @@ Shape::Shape() { }
 
 Shape::~Shape() { }
 
-Color& Shape::fill() {
+void Shape::set_fill(Color fill) {
+    m_fill = fill;
+}
+
+Color Shape::get_fill() const {
     return m_fill;
 }
 
-Bbox& Shape::bbox() {
+Bbox Shape::get_bbox() const {
     return m_bbox;
 }
 

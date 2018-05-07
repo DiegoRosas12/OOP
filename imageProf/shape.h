@@ -10,10 +10,17 @@ class Shape {
         Shape();
         virtual ~Shape();
 
-        Color& fill();
+        void set_fill(Color fill);
 
-        Bbox& bbox();
+        Color get_fill() const;
 
+        Bbox get_bbox() const;
+
+        // Color& fill();
+
+        // Bbox& bbox();
+
+        // Método virtual puro
         virtual bool inside( Point& pt ) = 0; // makes abstract class
 
         Color test( Point pt );
