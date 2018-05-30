@@ -6,6 +6,7 @@
 #include "box.h"
 #include "poly.h"
 #include "regular.h"
+#include "group.h"
 
 using namespace std;
 

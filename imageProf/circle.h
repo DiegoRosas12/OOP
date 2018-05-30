@@ -13,7 +13,7 @@ class Circle : public Shape {
 
     double& radius();
     Point& center();
-
+    void Circle::set(Point center, double radius);
     bool inside( Point& pt );
 
   protected:

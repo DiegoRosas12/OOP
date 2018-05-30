@@ -6,8 +6,12 @@ Circle::Circle() : Shape() {
 }
 
 Circle::Circle( Point center, double radius, Color fill ) : Circle() {
+    set(center, radius);
+    set_fill(fill);
+}
 
-    if ( radius < 0.0 ) return;
+void Circle::set(Point center, double radius) {
+    if ( radius < 0.0 ) throw "radio menor que cero";
 
     // define el bounding box
     m_bbox = Bbox( Point(center.x-radius, center.y-radius),
